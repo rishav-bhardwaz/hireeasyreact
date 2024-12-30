@@ -1,4 +1,4 @@
-import Sidebar from "./Sidebar"
+import Sidebar from "../admincomponents/Sidebar"
 const Dashboard = () => {
   return (
     <Sidebar />
