@@ -1,13 +1,11 @@
-import Navbar from "../components/Common/Navbar"
-import Header from "../components/Landing/Header"
+import HeroSection from "../components/Landing/Header"
 import Job from "../components/Landing/Jobs"
+import Header from "../components/Common/Navbar"
 export const Landingpages = () => {
   return (
     <>
-    <div className="min-h-screen bg-[#0B0F19]">
-    <Navbar />
     <Header />
-    </div>
+    <HeroSection />
     <Job />
     </>
 
