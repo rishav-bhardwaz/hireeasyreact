@@ -11,6 +11,10 @@ export default {
       fontFamily: {
         raleway: ['Raleway', 'sans-serif'],
       },
+      fontFamily: {
+        poppins: ['"Poppins"', 'sans-serif'],
+        inter: ['"Inter"', 'sans-serif'],
+      },
     },
   },
   plugins: [],

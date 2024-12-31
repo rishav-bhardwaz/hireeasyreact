@@ -1,14 +1,18 @@
-import Navbar from "../components/Common/Navbar"
-import Header from "../components/Landing/Header"
+import HeroSection from "../components/Landing/Header"
 import Job from "../components/Landing/Jobs"
+import Header from "../components/Common/Navbar"
+import Bento from "../components/Landing/Bento"
+import Team from "../components/Landing/Team"
+import Footer from "../components/Common/Footer"
 export const Landingpages = () => {
   return (
     <>
-    <div className="min-h-screen bg-[#0B0F19]">
-    <Navbar />
     <Header />
-    </div>
+    <HeroSection />
     <Job />
+    <Bento />
+    <Team />
+    <Footer />
     </>
 
   )
