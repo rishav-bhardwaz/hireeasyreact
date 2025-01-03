@@ -2,7 +2,6 @@ import React, { useState, Fragment } from 'react';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 
-// Since we're not using Next.js, we'll use a simple navigation function
 const navigate = (path: string) => {
   window.location.href = path;
 };
@@ -13,7 +12,9 @@ const navigation = [
   { name: 'About', href: '#about' },
 ];
 
-interface HeaderProps {}
+interface HeaderProps {
+  onLogout: () => void;
+}
 
 const Header: React.FC<HeaderProps> = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
