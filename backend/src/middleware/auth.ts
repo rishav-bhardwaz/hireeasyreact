@@ -23,8 +23,8 @@ export const isAuthenticated = async (req: AuthenticatedRequest, res: Response, 
       return sendResponse(res, 'Server error. Please try again later.', null, false, 500);
     }
 
-    const decoded = jwt.verify(token, secret) as { id: string };
-    const user = await User.findById(decoded.id);
+    const decoded = jwt.verify(token, secret) as { userId: string; role: string };
+    const user = await User.findById(decoded.userId);
 
     if (!user) {
       return sendResponse(res, 'User not found', null, false, 404);
