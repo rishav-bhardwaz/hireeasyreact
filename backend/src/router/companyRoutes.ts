@@ -1,5 +1,5 @@
 import express from 'express';
-import { addCompany, deleteCompany, getCompany, updateCompany } from '../Controller/companyController';
+import { addCompany, deleteCompany, getAllCompany, getCompany, updateCompany } from '../Controller/companyController';
 
 const router = express.Router();
 
@@ -7,13 +7,16 @@ router
     .route('/addCompany')
     .post(addCompany);
 router
-    .route('/getCompany')
-    .post(getCompany);
+    .route('/getcompanies')
+    .get(getAllCompany);
 router
-    .route('/updateCompany')
-    .post(updateCompany);
+    .route('/getCompany/:id')
+    .get(getCompany);
 router
-    .route('/deleteCompany')
-    .post(deleteCompany);
+    .route('/updateCompany/:id')
+    .put(updateCompany);
+router
+    .route('/deleteCompany/:id')
+    .delete(deleteCompany);
 
 export default router;

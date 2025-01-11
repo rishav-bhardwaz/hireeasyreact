@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Company from '../Model/company';
+import { sendResponse } from '../utils/responseUtils';
 
 export const addCompany = async (req: Request, res: Response) => {
     try {
@@ -34,6 +35,17 @@ export const addCompany = async (req: Request, res: Response) => {
         });
     }
 };
+export const getAllCompany = async (req: Request, res: Response) => {
+    try {
+      const companies = await Company.find({}, { updatedAt: 0, __v: 0 })
+      .sort({ createdAt: -1 }); 
+  
+      return sendResponse(res, 'Companies Data fetched successfully', companies);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, 'Internal Server Error', null, false, 500);
+    }
+  };
 
 export const getCompany = async (req: Request, res: Response) => {
     try {

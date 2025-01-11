@@ -1,5 +1,5 @@
 import express from 'express';
-import { addJob, deleteJob, getJob, updateJob } from '../Controller/jobController';
+import { addJob, deleteJob, getAllJobs, getJob, updateJob } from '../Controller/jobController';
 
 const router = express.Router();
 
@@ -7,13 +7,16 @@ router
     .route('/addJob')
     .post(addJob);
 router
-    .route('/getJob')
-    .post(getJob);
+    .route('/getjobs')
+    .get(getAllJobs);
 router
-    .route('/updateJob')
-    .post(updateJob);
+    .route('/getJob/:jobId')
+    .get(getJob);
 router
-    .route('/deleteJob')
-    .post(deleteJob);
+    .route('/updateJob/:jobId')
+    .put(updateJob);
+router
+    .route('/deleteJob/:jobId')
+    .delete(deleteJob);
 
 export default router;

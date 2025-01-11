@@ -5,6 +5,7 @@ interface UserType {
     email:string;
     phoneNo: string;
     password: string;
+    isValidatedPassword(candidatePassword: string, userPassword: string): boolean;
     role: 'admin' | 'user'; 
   }
   
@@ -15,6 +16,13 @@ interface UserType {
     password: { type: String, required: true },
     role: { type: String, required: true, enum: ['admin', 'user'] }, 
   });
+
+  UserSchema.methods.isValidatedPassword = function (
+    candidatePassword: string,
+    userPassword: string
+): boolean {
+    return candidatePassword === userPassword;  
+};
   
   const User = mongoose.model<UserType>('User', UserSchema);
   

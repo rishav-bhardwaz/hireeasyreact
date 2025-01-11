@@ -7,6 +7,7 @@ import { AuthenticatedRequest } from "../middleware/auth";
 import bcrypt from "bcrypt";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
+    // console.log("Request Body:", req.body);
     try {
         const { email, password } = req.body;
 
@@ -16,16 +17,20 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         }
 
         // Find user by email
-        const user = await User.findOne({ email }).select("+password");
+        const user = await User.findOne({ email });
         if (!user) {
             return sendResponse(res, "Invalid credentials", null, false, 401);
         }
 
         // Validate password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return sendResponse(res, "Invalid credentials", null, false, 401);
-        }
+        const isValidPassword = await user.isValidatedPassword(
+            password,
+            user.password
+          );
+      
+          if (!isValidPassword) {
+            return sendResponse(res, 'Invalid credentials', null, false, 401);
+          }
 
         // Create JWT token
         const token = jwt.sign(
