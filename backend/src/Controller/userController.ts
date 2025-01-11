@@ -1,31 +1,86 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import User from '../Model/user';
+import jwt from "jsonwebtoken";
+import { sendResponse } from '../utils/responseUtils';
+import { AuthenticatedRequest } from "../middleware/auth";
 
-export const addUser = async (req:Request,res:Response) =>{
-    try{
-        const {name,phoneNo,password} = req.body;
+import bcrypt from "bcrypt";
 
-        if (!name || !phoneNo || !password) {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email, password } = req.body;
+
+        // Check if email and password are provided
+        if (!email || !password) {
+            return sendResponse(res, "Email and password are required", null, false, 400);
+        }
+
+        // Find user by email
+        const user = await User.findOne({ email }).select("+password");
+        if (!user) {
+            return sendResponse(res, "Invalid credentials", null, false, 401);
+        }
+
+        // Validate password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return sendResponse(res, "Invalid credentials", null, false, 401);
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+            { userId: user._id, email: user.email, role: user.role },
+            process.env.JWT_SECRET || "defaultSecret", // Use default secret for development
+            { expiresIn: "7d" }
+        );
+
+        // Remove password from the response object
+        const userResponse = user.toObject();
+        userResponse.password = "";
+
+
+        // Send success response
+        return sendResponse(res, "Login Successful!", { user: userResponse, token }, true, 200);
+    } catch (error: any) {
+        console.error("Error during login:", error);
+        return sendResponse(res, "Internal server error", null, false, 500);
+    }
+};
+
+
+export const addUser = async (req: Request, res: Response) => {
+    try {
+        const { name, phoneNo, password, role,email } = req.body;
+
+        if (!name || !phoneNo || !password || !role||!email) {
             return res.status(400).json({
                 success: false,
-                message: 'Missing required fields: name, description, or companyId.',
+                message: 'Missing required fields: name, phoneNo, password, or role.',
             });
         }
 
-        const newUser = new User({name,phoneNo,password});
+        // Validate role value
+        if (!['admin', 'user'].includes(role)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid role. Allowed values are "admin" or "user".',
+            });
+        }
+
+        const newUser = new User({ name, phoneNo, password,email, role });
         const result = await newUser.save();
         return res.status(201).json({
             success: true,
             message: 'User created successfully',
-            data: result
-            });
-    }catch(error){
+            data: result,
+        });
+    } catch (error) {
         console.log('Error adding user', error);
         return res.status(500).json({
             success: false,
             message: 'Error creating user',
-            error:error
-            });
+            error: error,
+        });
     }
 };
 
@@ -56,15 +111,26 @@ export const getUser = async (req:Request,res:Response) =>{
                 });
         }
 };
-
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+      const users = await User.find({}, { password: 0, updatedAt: 0, __v: 0 })
+      .sort({ createdAt: -1 }); 
+  
+      return sendResponse(res, 'Users Data fetched successfully', users);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, 'Internal Server Error', null, false, 500);
+    }
+  };
+  
 export const updateUser = async (req:Request,res:Response)=>{
     try {
         const { id } = req.params;
-        const { name,phoneNo,password } = req.body;
+        const { name,phoneNo,email,password } = req.body;
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { name,phoneNo,password },
+            { name,phoneNo,email,password },
             { new: true } 
         );
 

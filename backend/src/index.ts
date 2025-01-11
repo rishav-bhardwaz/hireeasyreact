@@ -16,6 +16,11 @@ connectDB();
 app.use(cors());
 app.use(cookieParser());
 
+// morgan middlewares
+import morgan from 'morgan';
+app.use(morgan('tiny'));
+
+// regular middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

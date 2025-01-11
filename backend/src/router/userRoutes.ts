@@ -1,19 +1,25 @@
 import express from 'express';
-import { addUser, deleteUser, getUser, updateUser } from '../Controller/userController';
+import { addUser, deleteUser, getAllUsers, getUser, login, updateUser } from '../Controller/userController';
 
 const router = express.Router();
 
+router
+    .route('/login')
+    .post(login);
 router
     .route('/addUser')
     .post(addUser);
 router
     .route('/getUser')
-    .post(getUser);
+    .get(getUser);
+router
+    .route('/getAllUsers')
+    .get(getAllUsers);
 router
     .route('/updateUser')
-    .post(updateUser);
+    .put(updateUser);
 router
     .route('/deleteUser')
-    .post(deleteUser);
+    .delete(deleteUser);
 
 export default router;
