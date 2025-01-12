@@ -5,7 +5,7 @@ interface CompanyType {
     description: string;
     email: string;
     password: string;
-    admin: mongoose.Schema.Types.ObjectId; // Reference to the admin user
+    admin: mongoose.Schema.Types.ObjectId;
   }
   
   const CompanySchema = new Schema<CompanyType>({
@@ -13,7 +13,7 @@ interface CompanyType {
     description: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    admin: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Reference to an admin
+    admin: { type: Schema.Types.ObjectId, ref: 'User', required: true }, 
   });
   
   const Company = mongoose.model<CompanyType>('Company', CompanySchema);
