@@ -7,7 +7,7 @@ router
     .route('/addCompany')
     .post(addCompany);
 router
-    .route('/getcompanies')
+    .route('/getCompanies')
     .get(getAllCompany);
 router
     .route('/getCompany/:id')
