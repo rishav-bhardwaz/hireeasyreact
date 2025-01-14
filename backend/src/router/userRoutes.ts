@@ -5,7 +5,7 @@ import { hasAdminAccess, isAuthenticated } from '../middleware/auth';
 const router = express.Router();
 
 router
-    .route('/login')
+    .route('/auth/login')
     .post(login);
 router
     .route('/addUser')
