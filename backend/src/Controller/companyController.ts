@@ -4,9 +4,9 @@ import { sendResponse } from '../utils/responseUtils';
 
 export const addCompany = async (req: Request, res: Response) => {
     try {
-        const { name, description, email, password } = req.body;
+        const { name, description, email,admin } = req.body;
 
-        if (!name || !email || !password) {
+        if (!name || !email  || !admin) {
             return res.status(400).json({
                 success: false,
                 message: 'Missing required fields: name, description, or email.',
@@ -17,7 +17,7 @@ export const addCompany = async (req: Request, res: Response) => {
             name,
             description,
             email,
-            password
+            admin
         });
 
         const savedCompany = await newCompany.save();
@@ -104,11 +104,11 @@ export const deleteCompany = async (req: Request, res: Response) => {
 export const updateCompany = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, description, email,password } = req.body;
+        const { name, description, email,admin } = req.body;
 
         const updatedCompany = await Company.findByIdAndUpdate(
             id,
-            { name, description, email,password },
+            { name, description, email,admin },
             { new: true } 
         );
 

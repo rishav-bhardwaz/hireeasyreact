@@ -11,7 +11,6 @@ export const COMPANY = {
         name: data.name,
         description: data.description,
         email: data.email,
-        password:data.password,
         admin:data.admin,
       },
       headers: {
@@ -45,8 +44,8 @@ export const COMPANY = {
       data: {
         name: data.name,
         description: data.description,
-        active: data.active,
-        comapnyId:data.comapnyId
+        email: data.email,
+        admin:data.admin,
       },
       headers: {
         Authorization: `Bearer ` + localStorage.getItem('token'),

@@ -4,7 +4,6 @@ interface CompanyType {
     name: string;
     description: string;
     email: string;
-    password: string;
     admin: mongoose.Schema.Types.ObjectId;
   }
   
@@ -12,7 +11,6 @@ interface CompanyType {
     name: { type: String, required: true },
     description: { type: String, required: true },
     email: { type: String, required: true },
-    password: { type: String, required: true },
     admin: { type: Schema.Types.ObjectId, ref: 'User', required: true }, 
   });
   
