@@ -9,6 +9,7 @@ import Postjob from "./pages/Postjob";
 function App() {
   return (
     <Router>
+      
       <Routes>
         <Route path="/" element={<Landingpages />} />
         <Route path="/login" element={<LoginPage />} />
@@ -19,6 +20,9 @@ function App() {
       </Routes>
     </Router>
   );
+
+
+  // Need to setup protected route for the app 
 }
 
 export default App;
